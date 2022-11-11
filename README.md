@@ -2,20 +2,32 @@
 
 ## Store in DB Info about Car , Time, Location
 
-
 ![Blankdiagram](https://user-images.githubusercontent.com/62894826/201432682-3ab7ae63-0ffc-461f-8cbb-d0a0c4fc2b9a.png)
 
+1- Image Pre-Processing
 
-- Image Pre-Processing
+- RGB -> Grey Scale
+- Noise Reduction with Edge Preservation
+- Contrast Enhancement with Histogram Equalization
 
-  - RGB -> Grey Scale
-  - Noise Reduction with Edge Preservation
-  - Contrast Enhancement with Histogram Equalization
+2- Plate Area Extraction and Correction
 
-- Plate Area Extraction and Correction
-- Number Plate Extraction
-- Character Plate Extraction
-- Colour Plate Extraction
+- Errorsion and Dilation
+- Image Thresholding
+- Skew Correction (fix angle of the image to meet our target area)
+- Contouring
+- Extract Box currounding Plate Number and Characters
+- Cropping Region for Plate
+
+3- Number Plate Extraction
+
+- Use SE matrix to extract numbers from the Plate
+
+4- Character Plate Extraction
+
+- Use SE matrix to extract characters from the Plate
+
+5- Colour Plate Extraction
 
 ## Appeal the violation in Traffic System
 
