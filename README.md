@@ -3,7 +3,6 @@
 ## 🐳 Project Idea
 Safe streets for a better life. Streets will collect and store (Number of street, Time, Car plates, Type of car "e.g. diplomatic"). For governmental and reserach purposes.
 
-
 ## 🦦 Project need
 Astigmatism (uh-STIG-muh-tiz-um) a common imperfection in the curvature of the eye that causes blurred distance and near vision. Nearly one in three people experience astigmatism. But when Astigmatism face the challenge of reading a car's number plate, that is one tough nightmare. According to some protocols number plates must be clearly visible from any point that is up to 20 metres from the number plate, and within an arc of 45 degrees from the surface of the number plate above or to either side of the vehicle. Number plates must be readable from a distance of at least 20m. That is not the case for people with Astigmatism. We aspire for a safe-city. Each street will have a small radar that extract number plates along side with time and type of car e.g. diplomatic car or a taxi. This can have so many crucial applications built on top of this. Two of them can be Governmental and Research purposes.
 
@@ -11,6 +10,11 @@ For the governmantal applications we can have a kind of an auto judge for cars f
 
 `If you torture the data long enough, it will confess` - Ronald H. Coase. We can open these precious data for researchers to find patterns. One of them might be for climate: by calculating the percantage of routes taken by a private car that could have been taken by public transportation and how that could have affected the environment.
 
+
+## What will be implemented from scratch:
+- [ ] Algorithm to take a picture of a car number plates as input and output plates number and car type. 
+- [ ] Backend to safely store data and seperate confidential data of diplomatic cars for example.
+- [ ] "Bonus" Auto judge based on car fines, to check if it is was fair.
 
 
 ## Store in DB Info about Car , Time, Location
