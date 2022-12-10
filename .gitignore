@@ -1,2 +1,3 @@
 *.ipynb
 !safe_city.ipynb
+.DS_Store
