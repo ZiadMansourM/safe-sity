@@ -1,5 +1,7 @@
 *.ipynb
 !safe_city.ipynb
+!safe_city KNN.ipynb
+!KNNClassifier.ipynb
 .DS_Store
 venv/
 .vscode/
