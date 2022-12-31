@@ -12,4 +12,4 @@ class CityModel():
         if street not in list(self.streets.keys()):
             return None
         else:
-            return street
+            return self.streets[street].imagePathes

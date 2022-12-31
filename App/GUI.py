@@ -1,6 +1,7 @@
 import tkinter as tk
 from guiOptions import *
 from checkFine import CheckFine
+from PIL import ImageTk, Image 
 
 class GUI:
 
@@ -24,12 +25,17 @@ class GUI:
     citiesSelected: tk.StringVar
     streetsSelected: tk.StringVar
 
+    imageView: tk.PhotoImage
+
+    imageViewFlag: bool
+
     submitButton: tk.Button
 
     checker: CheckFine
     def __init__(self, width: int, height: int):
         
         self.checker = CheckFine('fineDetails.json')
+        self.imageViewFlag = False
 
         self.intializeGUI(width, height)
         self.labelWidth = 200
@@ -53,7 +59,9 @@ class GUI:
         self.streetsOptions = self.addOptionMenu(210, 160, self.streetsSelected, streets)
 
         self.submitButton = self.addButton(210, 200, "Submit", self.submit)
-        self.answerLabel = self.addLabel(210, 300, "")
+        self.answerLabel = self.addLabel(210, 800, "")
+
+        #self.imageView = self.addImage(300, 350, "image.png")
 
         self.root.mainloop()
 
@@ -63,19 +71,19 @@ class GUI:
         self.canvas = tk.Canvas(self.root, width=canvasWidth, height=canvasHeight)
         self.canvas.pack()
 
-    def addLabel(self, poistionX: int, positionY: int, labelName: str):
+    def addLabel(self, positionX: int, positionY: int, labelName: str):
         label = tk.Label(self.root, text=labelName, wraplength=self.labelWidth)
-        self.canvas.create_window(poistionX, positionY, window=label)
+        self.canvas.create_window(positionX, positionY, window=label)
         return label
 
-    def addEntry(self, poistionX: int, positionY: int, entryName: str):
+    def addEntry(self, positionX: int, positionY: int, entryName: str):
         entry = tk.Entry(self.root)
-        self.canvas.create_window(poistionX, positionY, window=entry)
+        self.canvas.create_window(positionX, positionY, window=entry)
         return entry
 
-    def addOptionMenu(self, poistionX: int, positionY: int, stringVar ,options: list, callback = None):
+    def addOptionMenu(self, positionX: int, positionY: int, stringVar ,options: list, callback = None):
         optionMenu = tk.OptionMenu(self.root, stringVar, *options, command=callback)
-        self.canvas.create_window(poistionX, positionY, window=optionMenu, width=self.labelWidth)
+        self.canvas.create_window(positionX, positionY, window=optionMenu, width=self.labelWidth)
         return optionMenu
 
     def governmentSelect(self, value):
@@ -93,17 +101,40 @@ class GUI:
         self.streetsSelected.set(streets[0])
         self.streetsOptions = self.addOptionMenu(210, 160, self.streetsSelected, streets)
 
-    def addButton(self, poistionX: int, positionY: int, buttonName: str, callback):
+    def addButton(self, positionX: int, positionY: int, buttonName: str, callback):
         button = tk.Button(self.root, text=buttonName, command=callback)
-        self.canvas.create_window(poistionX, positionY, window=button)
+        self.canvas.create_window(positionX, positionY, window=button)
         return button
     
+    def addImage(self, positionX: int, positionY: int, imageName: str):
+        image = Image.open(imageName)
+        image.resize((50, 50), Image.ANTIALIAS)
+        photo = ImageTk.PhotoImage(image)
+        self.canvas.create_image(positionX, positionY, image=photo)
+        return photo
+
     def submit (self):
         if self.lincesePlateEntry.get() == "":
             self.answerLabel.config(text="Please Enter Lincese Plate")
+            if self.imageViewFlag:
+                self.imageView.destroy()
+                self.imageViewFlag = False
         
         else:
-            if self.checker.checkFine(self.lincesePlateEntry.get(), self.governmentSelected.get(), self.citiesSelected.get(), self.streetsSelected.get()):
-                self.answerLabel.config(text="You have a fine")
+            image= self.checker.checkFine(self.lincesePlateEntry.get(), self.governmentSelected.get(), self.citiesSelected.get(), self.streetsSelected.get())
+
+            if image:
+                if self.imageViewFlag:
+                    pass
+                    self.imageView.destroy()
+                
+                self.imageView = self.addImage(500, 500, image)
+                self.imageViewFlag = True
+                self.answerLabel.config(text=image)
+                self.answerLabel.config(text="This is a picture of the car with the license plate at the location you entered")
+
             else:
-                self.answerLabel.config(text="You don't have a fine")
+                self.answerLabel.config(text="License Plate not found, fine will be removed")
+                if self.imageViewFlag:
+                    self.imageView.destroy()
+                    self.imageViewFlag = False
