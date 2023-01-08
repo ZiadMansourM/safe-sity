@@ -107,6 +107,7 @@ class GUI:
         return button
     
     def addImage(self, positionX: int, positionY: int, imageName: str):
+        global img
         image = Image.open(imageName)
         image.resize((50, 50), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -116,18 +117,10 @@ class GUI:
     def submit (self):
         if self.lincesePlateEntry.get() == "":
             self.answerLabel.config(text="Please Enter Lincese Plate")
-            if self.imageViewFlag:
-                self.imageView.destroy()
-                self.imageViewFlag = False
-        
         else:
             image= self.checker.checkFine(self.lincesePlateEntry.get(), self.governmentSelected.get(), self.citiesSelected.get(), self.streetsSelected.get())
 
-            if image:
-                if self.imageViewFlag:
-                    pass
-                    self.imageView.destroy()
-                
+            if image: 
                 self.imageView = self.addImage(500, 500, image)
                 self.imageViewFlag = True
                 self.answerLabel.config(text=image)
@@ -135,6 +128,3 @@ class GUI:
 
             else:
                 self.answerLabel.config(text="License Plate not found, fine will be removed")
-                if self.imageViewFlag:
-                    self.imageView.destroy()
-                    self.imageViewFlag = False
